@@ -2,9 +2,9 @@
 
 How to install:
 
-1. [Click here to download]()
+1. [Click here to download](https://github.com/KarazhanChessClub/AddonStarterPack/archive/refs/heads/master.zip)
 
-2. Unzip `AddonStarterPack.zip`
+2. Unzip `master.zip`
 
 3. Copy everything in the `Addons` folder into your wow install's `Interface/Addons` folder
 
