@@ -12,5 +12,9 @@ How to install:
 
 5. Delete your wow install's `Cache` folder
 
-6. If you had DBM installed previously, you must delete old config files. Go to `WTF/Account/[AccountName]/SavedVariables`, select every DBM file (everything that starts with DBM-) and delete them. Next, on each of your Characters SavedVariables folder `WTF/Account/[AccountName]/[ServerName]/[CharacterName]/SavedVariables` select every DBM file (everything that starts with DBM-) and delete them.
+If you had DBM installed previously, you must delete old config files.
+
+Go to `WTF/Account/[AccountName]/SavedVariables`, select every DBM file (everything that starts with DBM-) and delete them
+
+Next, go to each of your character's SavedVariables folder at `WTF/Account/[AccountName]/[ServerName]/[CharacterName]/SavedVariables` select every DBM file (everything that starts with DBM-) and delete them.
 
