@@ -260,6 +260,16 @@ function mod:Update(win)
 					bar.label:SetTextColor(1,1,1,1)
 					bar.timerLabel:SetTextColor(1,1,1,1)
 				end
+
+				if (Skada.db.profile.highlightplayer and data.label == UnitName("player")) then
+					local highlightColor = Skada.db.profile.highlightcolor
+					if (highlightColor == nil) then
+						highlightColor = {r = 1, g = 0, b = 0, a = 1}
+					end
+					bar.label:SetTextColor(highlightColor.r, highlightColor.g, highlightColor.b, highlightColor.a)
+					bar.timerLabel:SetTextColor(highlightColor.r, highlightColor.g, highlightColor.b, highlightColor.a)
+				end
+
 			end
 			
 			if win.metadata.ordersort then

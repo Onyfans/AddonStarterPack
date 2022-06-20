@@ -380,6 +380,49 @@ Skada.options = {
 								order=13,
 							},
 							
+							highlightPlayer = {
+								type="toggle",
+								name=L["Highlight player"],
+								desc=L["If true, highlight the player's name in a different color"],
+								order=14,
+								get=function() return Skada.db.profile.highlightplayer end,
+								set=function()
+									Skada.db.profile.highlightplayer = not Skada.db.profile.highlightplayer
+									Skada:ApplySettings()
+								end,
+							},
+							
+							highlightColor = {
+								type="color",
+								name=L["Player highlight color"],
+								desc=L["If 'Highlight player' is enabled, this determines the color of the player's name"],
+								hasAlpha=true,
+								get=function(i) 
+									local c = Skada.db.profile.highlightcolor
+									if (c == nil) then
+										c = {r = 1, g = 0, b = 0, a = 1}
+									end
+									return c.r, c.g, c.b, c.a
+								end,
+								set=function(i, r,g,b,a) 
+									Skada.db.profile.highlightcolor = {["r"] = r, ["g"] = g, ["b"] = b, ["a"] = a}
+									Skada:ApplySettings()
+								end,
+								order=15,
+							},
+										
+							updateFrequency = {
+								type="range",
+								name=L["Data update frequency"],
+								desc=L["How many times per second the data view will be updated"],
+								min=1,
+								max=60,
+								step=1,
+								get=function() return Skada.db.profile.updatespersecond end,
+								set=function(self, val) Skada.db.profile.updatespersecond = val end,
+								order=16,
+							},
+							
 						}
 	        		},
 
