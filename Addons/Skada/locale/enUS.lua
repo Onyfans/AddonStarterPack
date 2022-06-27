@@ -118,6 +118,16 @@ L["Threat: Personal Threat"] = "Threat: Personal Threat"
 L["Data segments to keep"] = "Data segments to keep"
 L["The number of fight segments to keep. Persistent segments are not included in this."] = "The number of fight segments to keep. Persistent segments are not included in this."
 
+L["Highlight player"] = "Highlight player"
+L["If true, highlight the player's name in a different color"] = "If true, highlight the player's name in a different color"
+
+L["Player highlight color"] = "Player highlight color"
+L["If 'Highlight player' is enabled, this determines the color of the player's name"] = "If 'Highlight player' is enabled, this determines the color of the player's name"
+
+L["Data update frequency"] = "Data update frequency"
+L["How many times per second the data view will be updated"] = "How many times per second the data view will be updated"
+
+
 L["Alternate color"] = "Alternate color"
 L["Choose the alternate color of the bars."] = "Choose the alternate color of the bars."
 

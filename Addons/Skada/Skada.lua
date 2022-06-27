@@ -1524,7 +1524,12 @@ function Skada:StartCombat()
 	
 	-- Schedule timers for updating windows and detecting combat end.
 	update_timer = self:ScheduleRepeatingTimer("UpdateDisplay", 0.5)
-	tick_timer = self:ScheduleRepeatingTimer("Tick", 1)
+	local updatesPerSecond = (self.db.profile.updatespersecond or 1)
+	if (updatesPerSecond < 1) then
+		updatesPerSecond = 1
+	end
+	local frequency = 1 / updatesPerSecond
+	tick_timer = self:ScheduleRepeatingTimer("Tick", frequency)
 	
 	-- Hide in combat option.
 	if self.db.profile.hidecombat then
