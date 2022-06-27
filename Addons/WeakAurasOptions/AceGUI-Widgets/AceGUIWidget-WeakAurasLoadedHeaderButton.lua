@@ -1,4 +1,6 @@
-﻿local Type, Version = "WeakAurasLoadedHeaderButton", 20
+if not WeakAuras.IsCorrectVersion() then return end
+
+local Type, Version = "WeakAurasLoadedHeaderButton", 20
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -21,13 +23,13 @@ end
 Methods
 -------------------------------------------------------------------------------]]
 local methods = {
-	["OnAcquire"] = function(self)
-		self:SetWidth(1000);
-		self:SetHeight(20);
-	end,
-	["SetText"] = function(self, text)
-		self.frame:SetText(" "..text);
-	end,
+  ["OnAcquire"] = function(self)
+    self:SetWidth(1000);
+    self:SetHeight(20);
+  end,
+  ["SetText"] = function(self, text)
+    self.frame:SetText(" "..text);
+  end,
   ["SetClick"] = function(self, func)
     self.frame:SetScript("OnClick", func);
   end,
@@ -94,8 +96,33 @@ local methods = {
   ["SetViewClick"] = function(self, func)
     self.view:SetScript("OnClick", func);
   end,
-  ["SetViewTest"] = function(self, func)
-    self.view.func = func;
+  ["PriorityShow"] = function(self, priority)
+    if (not WeakAuras.IsOptionsOpen()) then
+      return;
+    end
+    if(priority >= self.view.visibility and self.view.visibility ~= priority) then
+      self.view.visibility = priority;
+      self:UpdateViewTexture()
+    end
+  end,
+  ["PriorityHide"] = function(self, priority)
+    if (not WeakAuras.IsOptionsOpen()) then
+      return;
+    end
+    if(priority >= self.view.visibility and self.view.visibility ~= 0) then
+      self.view.visibility = 0;
+      self:UpdateViewTexture()
+    end
+  end,
+  ["UpdateViewTexture"] = function(self)
+    local visibility = self.view.visibility
+    if(visibility == 2) then
+      self.view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking0.blp");
+    elseif(visibility == 1) then
+      self.view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking2.blp");
+    else
+      self.view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking4.blp");
+    end
   end,
   ["SetViewDescription"] = function(self, desc)
     self.view.desc = desc;
@@ -115,18 +142,18 @@ Constructor
 
 local function Constructor()
   local name = Type..AceGUI:GetNextWidgetNum(Type)
-	local button = CreateFrame("BUTTON", name, UIParent, "OptionsListButtonTemplate");
+  local button = CreateFrame("BUTTON", name, UIParent, "OptionsListButtonTemplate");
   button:SetHeight(20);
   button:SetWidth(1000);
   button:SetDisabledFontObject("GameFontNormal");
-  
+
   local background = button:CreateTexture(nil, "BACKGROUND");
   button.background = background;
   background:SetTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2.blp");
   background:SetBlendMode("ADD");
   background:SetVertexColor(0.5, 0.5, 0.5, 0.25);
   background:SetAllPoints(button);
-  
+
   local expand = CreateFrame("BUTTON", nil, button);
   button.expand = expand;
   expand.expanded = true;
@@ -143,8 +170,8 @@ local function Constructor()
   expand.expanddesc = "";
   expand.collapsedesc = "";
   expand:SetScript("OnEnter", function() Show_Tooltip(button, expand.title, expand.desc) end);
-	expand:SetScript("OnLeave", Hide_Tooltip);
-  
+  expand:SetScript("OnLeave", Hide_Tooltip);
+
   local view = CreateFrame("BUTTON", nil, button);
   button.view = view;
   view:SetWidth(16);
@@ -159,30 +186,20 @@ local function Constructor()
   view:SetHighlightTexture("Interface\\BUTTONS\\UI-Panel-MinimizeButton-Highlight.blp");
   view.desc = "";
   view:SetScript("OnEnter", function() Show_Tooltip(button, L["View"], view.desc) end);
-	view:SetScript("OnLeave", Hide_Tooltip);
+  view:SetScript("OnLeave", Hide_Tooltip);
   view.visibility = 0;
-  view.func = function() return view.visibility end;
-  view:SetScript("OnUpdate", function()
-    if(view.func() == 2) then
-      view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking0.blp");
-    elseif(view.func() == 1) then
-      view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking2.blp");
-    else
-      view.texture:SetTexture("Interface\\LFGFrame\\BattlenetWorking4.blp");
-    end
-  end);
-  
-	local widget = {
-		frame = button,
+
+  local widget = {
+    frame = button,
     expand = expand,
     view = view,
-		type = Type
-	}
-	for method, func in pairs(methods) do
-		widget[method] = func
-	end
+    type = Type
+  }
+  for method, func in pairs(methods) do
+    widget[method] = func
+  end
 
-	return AceGUI:RegisterAsWidget(widget)
+  return AceGUI:RegisterAsWidget(widget)
 end
 
 AceGUI:RegisterWidgetType(Type, Constructor, Version)
